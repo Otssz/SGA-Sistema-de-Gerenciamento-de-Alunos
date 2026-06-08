@@ -1,0 +1,273 @@
+/* =====================================================================
+   SGA-Edu — Estilos globais
+   Paleta: verde institucional (#2e7d32) + branco + cinza claro
+   ===================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --verde:        #2e7d32;
+  --verde-escuro: #1b5e20;
+  --verde-claro:  #e8f5e9;
+  --acento:       #66bb6a;
+  --perigo:       #c62828;
+  --cinza-borda:  #dee2e6;
+  --cinza-fundo:  #f4f6f8;
+  --texto:        #212529;
+  --texto-suave:  #6c757d;
+  --sombra:       0 2px 8px rgba(0,0,0,.10);
+  --raio:         8px;
+  --fonte:        'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--fonte);
+  background: var(--cinza-fundo);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+/* ---- Utilitários ---- */
+.oculto   { display: none !important; }
+.ativa    { display: block; }
+
+/* ---- Telas ---- */
+.tela { min-height: 100vh; }
+
+/* ===== LOGIN ===== */
+#tela-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 100%);
+}
+
+.card-login {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.logo { text-align: center; margin-bottom: 2rem; }
+.logo-icone { font-size: 3rem; }
+.logo h1 { font-size: 1.8rem; color: var(--verde); margin: .25rem 0; }
+.logo p  { color: var(--texto-suave); font-size: .95rem; }
+
+/* ===== NAVBAR ===== */
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--verde);
+  color: #fff;
+  padding: .75rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--sombra);
+  gap: 1rem;
+}
+
+.nav-marca { font-size: 1.2rem; font-weight: 700; white-space: nowrap; }
+
+.nav-links { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+.nav-link {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.4);
+  color: #fff;
+  padding: .35rem .85rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: .875rem;
+  transition: background .2s;
+}
+.nav-link:hover, .nav-link.ativo { background: rgba(255,255,255,.2); }
+
+.nav-usuario { display: flex; align-items: center; gap: .75rem; white-space: nowrap; font-size: .875rem; }
+
+/* ===== MAIN ===== */
+#conteudo-principal { padding: 2rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+
+.pagina { display: none; }
+.pagina.ativa { display: block; }
+
+h2 { font-size: 1.5rem; color: var(--verde-escuro); margin-bottom: .25rem; }
+h3 { font-size: 1.1rem; color: var(--verde-escuro); margin-bottom: 1rem; }
+.subtitulo { color: var(--texto-suave); margin-bottom: 1.5rem; font-size: .95rem; }
+
+/* ===== BADGE (papel) ===== */
+.badge {
+  display: inline-block;
+  padding: .15rem .65rem;
+  border-radius: 20px;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.badge-ALUNO      { background: #e3f2fd; color: #0d47a1; }
+.badge-PROFESSOR  { background: #fff3e0; color: #e65100; }
+.badge-SECRETARIA { background: #f3e5f5; color: #6a1b9a; }
+.badge-DIRETOR    { background: var(--verde-claro); color: var(--verde-escuro); }
+
+/* ===== CARDS ===== */
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+
+.card-dashboard {
+  background: #fff;
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .5rem;
+  cursor: pointer;
+  border-left: 4px solid var(--verde);
+  transition: transform .15s, box-shadow .15s;
+}
+.card-dashboard:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.15); }
+.card-dashboard .icone { font-size: 2rem; }
+.card-dashboard h3 { font-size: 1rem; margin: 0; }
+.card-dashboard p  { font-size: .8rem; color: var(--texto-suave); margin: 0; }
+
+.card-acao {
+  background: #fff;
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+/* ===== FORMULÁRIOS ===== */
+.formulario-card {
+  background: #fff;
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.campo { display: flex; flex-direction: column; gap: .3rem; }
+.campo label { font-size: .875rem; font-weight: 600; color: var(--texto-suave); }
+
+.linha-campos { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: .75rem; }
+.linha-campos .campo { flex: 1; min-width: 120px; }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+textarea {
+  padding: .5rem .75rem;
+  border: 1px solid var(--cinza-borda);
+  border-radius: 6px;
+  font-size: .95rem;
+  font-family: var(--fonte);
+  transition: border-color .2s;
+  width: 100%;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--verde);
+  box-shadow: 0 0 0 3px rgba(46,125,50,.15);
+}
+textarea { resize: vertical; }
+
+/* ===== BOTÕES ===== */
+button { cursor: pointer; font-family: var(--fonte); border: none; border-radius: 6px; padding: .55rem 1.25rem; font-size: .95rem; font-weight: 600; transition: background .2s, opacity .2s; }
+
+.btn-primario  { background: var(--verde); color: #fff; }
+.btn-primario:hover { background: var(--verde-escuro); }
+.btn-primario:disabled { opacity: .6; cursor: not-allowed; }
+
+.btn-secundario { background: var(--cinza-fundo); color: var(--texto); border: 1px solid var(--cinza-borda); }
+.btn-secundario:hover { background: var(--cinza-borda); }
+
+.btn-perigo { background: var(--perigo); color: #fff; }
+.btn-perigo:hover { background: #8b0000; }
+
+.btn-sair { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.4); padding: .3rem .75rem; font-size: .8rem; }
+.btn-sair:hover { background: rgba(255,255,255,.3); }
+
+/* ===== MENSAGENS ===== */
+.mensagem-erro    { background: #ffebee; color: var(--perigo); border: 1px solid #ef9a9a; border-radius: 6px; padding: .6rem 1rem; font-size: .875rem; margin-top: .5rem; }
+.mensagem-sucesso { background: var(--verde-claro); color: var(--verde-escuro); border: 1px solid var(--acento); border-radius: 6px; padding: .6rem 1rem; font-size: .875rem; margin-top: .5rem; }
+
+/* ===== TABELA ===== */
+.tabela { width: 100%; border-collapse: collapse; margin-top: 1rem; background: #fff; border-radius: var(--raio); overflow: hidden; box-shadow: var(--sombra); }
+.tabela thead { background: var(--verde); color: #fff; }
+.tabela th, .tabela td { padding: .75rem 1rem; text-align: left; font-size: .9rem; }
+.tabela tbody tr:nth-child(even) { background: var(--cinza-fundo); }
+.tabela tbody tr:hover { background: var(--verde-claro); }
+.tabela tbody tr.linha-resumo-notas {
+  background: #f1f8e9;
+  border-top: 2px solid var(--acento);
+}
+.tabela tbody tr.linha-resumo-notas:hover { background: #e8f5e9; }
+.tabela tbody tr.linha-grupo-turma {
+  background: var(--verde-claro);
+  color: var(--verde-escuro);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.tabela tbody tr.linha-grupo-turma:hover { background: var(--verde-claro); }
+
+/* ===== STATS (frequência) ===== */
+#freq-resultado, #minha-freq-resultado {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;
+}
+.stat-box {
+  background: var(--cinza-fundo);
+  border: 1px solid var(--cinza-borda);
+  border-radius: var(--raio);
+  padding: 1rem 1.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: .25rem;
+  min-width: 130px;
+}
+.stat-label { font-size: .8rem; color: var(--texto-suave); font-weight: 600; text-transform: uppercase; }
+.stat-valor  { font-size: 1.5rem; font-weight: 700; color: var(--verde-escuro); }
+
+/* ===== INFO BOX ===== */
+.info-box {
+  background: #fff8e1; border: 1px solid #ffe082;
+  border-radius: 6px; padding: .5rem .75rem;
+  font-size: .85rem; color: #5d4037; margin-bottom: .75rem;
+}
+
+/* ===== BADGE STATUS MATRÍCULA ===== */
+.badge-status-ATIVA      { background: var(--verde-claro); color: var(--verde-escuro); }
+.badge-status-CANCELADA  { background: #ffebee; color: var(--perigo); }
+.badge-status-TRANCADA   { background: #fff3e0; color: #e65100; }
+.badge-status-CONCLUIDA  { background: #e3f2fd; color: #0d47a1; }
+.badge-situacao-APROVADO     { background: var(--verde-claro); color: var(--verde-escuro); }
+.badge-situacao-RECUPERACAO  { background: #fff3e0; color: #e65100; }
+.badge-situacao-REPROVADO    { background: #ffebee; color: var(--perigo); }
+
+/* ===== SELECT ===== */
+select {
+  padding: .5rem .75rem;
+  border: 1px solid var(--cinza-borda);
+  border-radius: 6px;
+  font-size: .95rem;
+  font-family: var(--fonte);
+  background: #fff;
+  width: 100%;
+}
+select:focus { outline: none; border-color: var(--verde); box-shadow: 0 0 0 3px rgba(46,125,50,.15); }
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 600px) {
+  #navbar { flex-wrap: wrap; }
+  .nav-links { width: 100%; }
+  #conteudo-principal { padding: 1rem; }
+  .linha-campos { flex-direction: column; }
+  .grid-cards { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,5 @@
+br\edu\sgaedu\dominio\strategy\MediaPorCompetenciasTest.class
+br\edu\sgaedu\dominio\command\MatricularAlunoCommandTest.class
+br\edu\sgaedu\dominio\strategy\MediaAritmeticaTest.class
+br\edu\sgaedu\api\controller\NotaControllerTest.class
+br\edu\sgaedu\dominio\strategy\MediaPonderadaTest.class

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SGA-Edu — Colégio Alvorada</title>
+  <link rel="stylesheet" href="css/estilo.css" />
+</head>
+<body>
+
+  <!-- ===== TELA DE LOGIN ===== -->
+  <div id="tela-login" class="tela ativa">
+    <div class="card-login">
+      <div class="logo">
+        <div class="logo-icone">🎓</div>
+        <h1>SGA-Edu</h1>
+        <p>Colégio Alvorada</p>
+      </div>
+      <form id="form-login">
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="seu@email.edu" required />
+        </div>
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="••••••••" required />
+        </div>
+        <div id="erro-login" class="mensagem-erro oculto"></div>
+        <button type="submit" class="btn-primario" id="btn-entrar">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== TELA PRINCIPAL (pós-login) ===== -->
+  <div id="tela-app" class="tela oculto">
+
+    <nav id="navbar">
+      <div class="nav-marca">🎓 SGA-Edu</div>
+      <div id="nav-links" class="nav-links"></div>
+      <div class="nav-usuario">
+        <span id="nav-nome-usuario"></span>
+        <button class="btn-sair" id="btn-sair">Sair</button>
+      </div>
+    </nav>
+
+    <main id="conteudo-principal">
+
+      <!-- Dashboard -->
+      <section id="pagina-dashboard" class="pagina ativa">
+        <h2>Bem-vindo(a), <span id="dash-nome"></span></h2>
+        <p class="subtitulo">Papel: <span id="dash-papel" class="badge"></span></p>
+        <div id="cards-dashboard" class="grid-cards"></div>
+      </section>
+
+      <!-- ========== PROFESSOR: Lançar Notas (UC-02) ========== -->
+      <section id="pagina-notas" class="pagina">
+        <h2>Lançar Notas — UC-02</h2>
+        <div class="formulario-card">
+          <h3>Cadastrar Avaliação</h3>
+          <form id="form-avaliacao">
+            <div class="linha-campos">
+              <div class="campo"><label>Turma</label>
+                <select id="av-turma-id" required></select></div>
+              <div class="campo"><label>Tipo</label>
+                <select id="av-tipo">
+                  <option value="">Personalizada</option>
+                  <option value="N1">N1 - peso 0.4</option>
+                  <option value="N2">N2 - peso 0.7</option>
+                  <option value="TRABALHO">Trabalho</option>
+                </select></div>
+              <div class="campo"><label>Descrição</label>
+                <input type="text" id="av-descricao" placeholder="Ex.: Prova 2 - Geometria" required /></div>
+              <div class="campo"><label>Data</label>
+                <input type="date" id="av-data" required /></div>
+            </div>
+            <div class="linha-campos">
+              <div class="campo"><label>Peso</label>
+                <input type="number" id="av-peso" step="0.1" min="0.1" value="1" required /></div>
+              <div class="campo"><label>Valor máximo</label>
+                <input type="number" id="av-valor-maximo" step="0.1" min="0.1" value="10" required /></div>
+              <button type="submit" class="btn-primario" style="align-self:flex-end">Cadastrar Avaliação</button>
+              <button type="button" class="btn-secundario" id="btn-listar-avaliacoes" style="align-self:flex-end">Ver Avaliações</button>
+            </div>
+            <div id="erro-avaliacao" class="mensagem-erro oculto"></div>
+            <div id="sucesso-avaliacao" class="mensagem-sucesso oculto"></div>
+          </form>
+          <div id="tabela-avaliacoes-wrapper" class="oculto">
+            <table class="tabela">
+              <thead><tr><th>ID</th><th>Avaliação</th><th>Turma</th><th>Valor máximo</th></tr></thead>
+              <tbody id="tabela-avaliacoes-corpo"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="formulario-card">
+          <form id="form-nota">
+            <div class="linha-campos">
+              <div class="campo">
+                <label>ID da Turma</label>
+                <select id="nota-turma-id" required></select>
+              </div>
+              <div class="campo">
+                <label>ID do Aluno</label>
+                <input type="number" id="nota-aluno-id" placeholder="Ex.: 4" required />
+              </div>
+              <div class="campo">
+                <label>ID da Avaliação</label>
+                <input type="number" id="nota-avaliacao-id" placeholder="Ex.: 1" required />
+              </div>
+              <div class="campo">
+                <label>Valor (0 – 10)</label>
+                <input type="number" id="nota-valor" step="0.1" min="0" max="10" placeholder="Ex.: 8.5" required />
+              </div>
+            </div>
+            <div class="campo">
+              <label>Observação (opcional)</label>
+              <textarea id="nota-observacao" rows="2" placeholder="Comentário sobre a avaliação..."></textarea>
+            </div>
+            <div id="erro-nota" class="mensagem-erro oculto"></div>
+            <div id="sucesso-nota" class="mensagem-sucesso oculto"></div>
+            <button type="submit" class="btn-primario">Lançar Nota</button>
+          </form>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Dados da Turma Selecionada</h3>
+          <div class="grid-cards grid-referencias">
+            <div>
+              <h3>Alunos da turma</h3>
+              <div id="tabela-alunos-turma-wrapper" class="oculto">
+                <table class="tabela">
+                  <thead><tr><th>ID</th><th>Aluno</th><th>Matrícula</th></tr></thead>
+                  <tbody id="tabela-alunos-turma-corpo"></tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h3>Avaliações da turma</h3>
+              <div id="tabela-avaliacoes-turma-wrapper" class="oculto">
+                <table class="tabela">
+                  <thead><tr><th>ID</th><th>Avaliação</th><th>Peso</th></tr></thead>
+                  <tbody id="tabela-avaliacoes-turma-corpo"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Consultar Notas da Turma</h3>
+          <div class="linha-campos">
+            <div class="campo"><label>ID da Turma</label>
+              <select id="consulta-turma-id"></select></div>
+            <div class="campo"><label>ID do Aluno</label>
+              <input type="number" id="consulta-aluno-id" placeholder="Ex.: 4" /></div>
+            <button class="btn-secundario" id="btn-consultar-notas" style="align-self:flex-end">Consultar</button>
+            <button class="btn-secundario" id="btn-consultar-notas-turma" style="align-self:flex-end">Ver Turma Toda</button>
+          </div>
+          <div id="tabela-notas-wrapper" class="oculto">
+            <table class="tabela">
+              <thead><tr><th>Aluno</th><th>Avaliação</th><th>Peso</th><th>Valor</th><th>Observação</th><th>Lançada em</th></tr></thead>
+              <tbody id="tabela-notas-corpo"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== PROFESSOR: Registrar Frequência (UC-05) ========== -->
+      <section id="pagina-frequencia" class="pagina">
+        <h2>Registrar Frequência — UC-05</h2>
+        <div class="formulario-card">
+          <form id="form-frequencia">
+            <div class="linha-campos">
+              <div class="campo">
+                <label>ID da Turma</label>
+                <input type="number" id="freq-turma-id" placeholder="Ex.: 1" required />
+              </div>
+              <div class="campo">
+                <label>ID do Aluno</label>
+                <input type="number" id="freq-aluno-id" placeholder="Ex.: 2" required />
+              </div>
+              <div class="campo">
+                <label>Data da Aula</label>
+                <input type="date" id="freq-data" required />
+              </div>
+              <div class="campo">
+                <label>Presença</label>
+                <select id="freq-presente">
+                  <option value="true">Presente</option>
+                  <option value="false">Ausente</option>
+                </select>
+              </div>
+            </div>
+            <div class="campo">
+              <label>Justificativa (se ausente)</label>
+              <textarea id="freq-justificativa" rows="2" placeholder="Opcional — informe motivo da falta..."></textarea>
+            </div>
+            <div id="erro-freq" class="mensagem-erro oculto"></div>
+            <div id="sucesso-freq" class="mensagem-sucesso oculto"></div>
+            <button type="submit" class="btn-primario">Registrar Frequência</button>
+          </form>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Consultar Frequência do Aluno</h3>
+          <p class="info-box">RN-001: frequência mínima de 75% — alunos abaixo são reprovados por faltas.</p>
+          <div class="linha-campos">
+            <div class="campo"><label>ID da Turma</label>
+              <input type="number" id="freq-consulta-turma-id" placeholder="Ex.: 1" /></div>
+            <div class="campo"><label>ID do Aluno</label>
+              <input type="number" id="freq-consulta-aluno-id" placeholder="Ex.: 2" /></div>
+            <button class="btn-secundario" id="btn-consultar-freq" style="align-self:flex-end">Consultar</button>
+          </div>
+          <div id="freq-resultado" class="oculto">
+            <div class="stat-box">
+              <span class="stat-label">Total de aulas</span>
+              <span class="stat-valor" id="freq-total">—</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Presenças</span>
+              <span class="stat-valor" id="freq-presencas">—</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Frequência</span>
+              <span class="stat-valor" id="freq-percentual">—</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Situação</span>
+              <span class="stat-valor" id="freq-situacao">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ALUNO: Minhas Notas ========== -->
+      <section id="pagina-minhas-notas" class="pagina">
+        <h2>Minhas Notas</h2>
+        <div class="formulario-card">
+          <div class="linha-campos">
+            <div class="campo"><label>ID da Turma</label>
+              <input type="number" id="aluno-turma-id" placeholder="Ex.: 1" /></div>
+            <button class="btn-secundario" id="btn-ver-minhas-notas" style="align-self:flex-end">Ver Notas</button>
+          </div>
+          <div id="tabela-minhas-notas-wrapper" class="oculto">
+            <table class="tabela">
+              <thead><tr><th>Aluno</th><th>Avaliação</th><th>Peso</th><th>Valor</th><th>Observação</th><th>Data</th></tr></thead>
+              <tbody id="tabela-minhas-notas-corpo"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ALUNO: Minha Frequência ========== -->
+      <section id="pagina-minha-frequencia" class="pagina">
+        <h2>Minha Frequência</h2>
+        <div class="formulario-card">
+          <p class="info-box">RN-001: frequência mínima de 75% para aprovação.</p>
+          <div class="linha-campos">
+            <div class="campo"><label>ID da Turma</label>
+              <input type="number" id="aluno-freq-turma-id" placeholder="Ex.: 1" /></div>
+            <button class="btn-secundario" id="btn-ver-minha-freq" style="align-self:flex-end">Ver Frequência</button>
+          </div>
+          <div id="minha-freq-resultado" class="oculto">
+            <div class="stat-box">
+              <span class="stat-label">Total de aulas</span>
+              <span class="stat-valor" id="minha-freq-total">—</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Presenças</span>
+              <span class="stat-valor" id="minha-freq-presencas">—</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Frequência</span>
+              <span class="stat-valor" id="minha-freq-percentual">—</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Situação</span>
+              <span class="stat-valor" id="minha-freq-situacao">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== SECRETARIA: Matrículas (UC-01) ========== -->
+      <section id="pagina-matriculas" class="pagina">
+        <h2>Matrículas — UC-01</h2>
+        <div class="formulario-card">
+          <h3>Cadastrar Turma</h3>
+          <form id="form-turma">
+            <div class="linha-campos">
+              <div class="campo"><label>Código</label>
+                <input type="text" id="cad-turma-codigo" placeholder="Ex.: EM1B-2024" required /></div>
+              <div class="campo"><label>Ano letivo</label>
+                <input type="text" id="cad-turma-ano" placeholder="Ex.: 2024" required /></div>
+              <div class="campo"><label>Turno</label>
+                <input type="text" id="cad-turma-turno" placeholder="Ex.: Manhã" required /></div>
+            </div>
+            <div class="linha-campos">
+              <div class="campo"><label>Curso</label>
+                <input type="text" id="cad-turma-curso" placeholder="Ex.: Ensino Médio 1º Ano" required /></div>
+              <div class="campo"><label>Carga horária</label>
+                <input type="number" id="cad-turma-carga" min="1" value="800" required /></div>
+              <button type="submit" class="btn-primario" style="align-self:flex-end">Cadastrar Turma</button>
+            </div>
+            <div id="erro-turma" class="mensagem-erro oculto"></div>
+            <div id="sucesso-turma" class="mensagem-sucesso oculto"></div>
+          </form>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Cadastrar Aluno</h3>
+          <form id="form-cadastro-aluno">
+            <div class="linha-campos">
+              <div class="campo"><label>Nome</label>
+                <input type="text" id="cad-aluno-nome" required /></div>
+              <div class="campo"><label>E-mail</label>
+                <input type="email" id="cad-aluno-email" required /></div>
+            </div>
+            <div class="linha-campos">
+              <div class="campo"><label>Matrícula</label>
+                <input type="text" id="cad-aluno-matricula" required /></div>
+              <div class="campo"><label>Data de nascimento</label>
+                <input type="date" id="cad-aluno-nascimento" required /></div>
+              <div class="campo"><label>CPF (opcional)</label>
+                <input type="text" id="cad-aluno-cpf" maxlength="14" /></div>
+            </div>
+            <div class="linha-campos">
+              <div class="campo"><label>Turma</label>
+                <select id="cad-aluno-turma-id" required></select></div>
+            </div>
+            <div id="erro-cadastro-aluno" class="mensagem-erro oculto"></div>
+            <div id="sucesso-cadastro-aluno" class="mensagem-sucesso oculto"></div>
+            <button type="submit" class="btn-primario">Cadastrar e Matricular</button>
+          </form>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Cancelar Matrícula</h3>
+          <div class="linha-campos">
+            <div class="campo"><label>ID da Matrícula</label>
+              <input type="number" id="cancelar-matricula-id" placeholder="Ex.: 1" /></div>
+            <div class="campo"><label>Motivo</label>
+              <input type="text" id="cancelar-motivo" placeholder="Ex.: Transferência" /></div>
+            <button class="btn-perigo" id="btn-cancelar-matricula" style="align-self:flex-end">Cancelar</button>
+          </div>
+          <div id="sucesso-cancelamento" class="mensagem-sucesso oculto"></div>
+          <div id="erro-cancelamento" class="mensagem-erro oculto"></div>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Consultar Matrículas do Aluno</h3>
+          <div class="linha-campos">
+            <div class="campo"><label>ID do Aluno</label>
+              <input type="number" id="consulta-mat-aluno-id" placeholder="Ex.: 4" /></div>
+            <div class="campo"><label>ID da Turma</label>
+              <input type="number" id="consulta-mat-turma-id" placeholder="Opcional" /></div>
+            <button class="btn-secundario" id="btn-consultar-matriculas" style="align-self:flex-end">Consultar</button>
+          </div>
+          <div id="tabela-matriculas-wrapper" class="oculto">
+            <table class="tabela">
+              <thead><tr><th>ID</th><th>Turma</th><th>Status</th><th>Data</th></tr></thead>
+              <tbody id="tabela-matriculas-corpo"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="formulario-card">
+          <h3>Alunos Matriculados</h3>
+          <button class="btn-secundario" id="btn-listar-todas-matriculas">Ver Todos</button>
+          <div id="tabela-todas-matriculas-wrapper" class="oculto">
+            <table class="tabela">
+              <thead><tr><th>Matrícula</th><th>Aluno</th><th>ID Aluno</th><th>Turma</th><th>Status</th><th>Data</th><th>Ação</th></tr></thead>
+              <tbody id="tabela-todas-matriculas-corpo"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="formulario-card oculto" id="card-editar-aluno">
+          <h3>Alterar Dados do Aluno</h3>
+          <form id="form-editar-aluno">
+            <input type="hidden" id="edit-aluno-id" />
+            <div class="linha-campos">
+              <div class="campo"><label>Nome</label>
+                <input type="text" id="edit-aluno-nome" required /></div>
+              <div class="campo"><label>E-mail</label>
+                <input type="email" id="edit-aluno-email" required /></div>
+            </div>
+            <div class="linha-campos">
+              <div class="campo"><label>Matrícula</label>
+                <input type="text" id="edit-aluno-matricula" required /></div>
+              <div class="campo"><label>Data de nascimento</label>
+                <input type="date" id="edit-aluno-nascimento" required /></div>
+              <div class="campo"><label>CPF</label>
+                <input type="text" id="edit-aluno-cpf" maxlength="14" /></div>
+            </div>
+            <div id="erro-editar-aluno" class="mensagem-erro oculto"></div>
+            <div id="sucesso-editar-aluno" class="mensagem-sucesso oculto"></div>
+            <button type="submit" class="btn-primario">Salvar Alterações</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ========== SECRETARIA/ALUNO: Documentos (UC-04) ========== -->
+      <section id="pagina-documentos" class="pagina">
+        <h2>Documentos — UC-04</h2>
+        <div class="grid-cards">
+
+          <div class="card-acao">
+            <h3>📄 Boletim</h3>
+            <p>Gera o boletim de notas do aluno para um período letivo.</p>
+            <div class="campo"><label>ID do Aluno</label>
+              <input type="number" id="bol-aluno-id" placeholder="Ex.: 2" /></div>
+            <div class="campo"><label>ID da Turma</label>
+              <input type="number" id="bol-turma-id" placeholder="Ex.: 1" /></div>
+            <div class="campo"><label>Período</label>
+              <input type="text" id="bol-periodo" placeholder="Ex.: 2024-1" /></div>
+            <button class="btn-primario" id="btn-gerar-boletim">Gerar Boletim PDF</button>
+            <div id="erro-boletim" class="mensagem-erro oculto"></div>
+          </div>
+
+          <div class="card-acao">
+            <h3>📋 Histórico Escolar</h3>
+            <p>Gera o histórico completo de todos os cursos do aluno.</p>
+            <div class="campo"><label>ID do Aluno</label>
+              <input type="number" id="hist-aluno-id" placeholder="Ex.: 2" /></div>
+            <button class="btn-primario" id="btn-gerar-historico">Gerar Histórico PDF</button>
+            <div id="erro-historico" class="mensagem-erro oculto"></div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

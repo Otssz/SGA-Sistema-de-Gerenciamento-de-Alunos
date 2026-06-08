@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: sgaedu-db
+    environment:
+      POSTGRES_DB: sgaedu
+      POSTGRES_USER: sgaedu
+      POSTGRES_PASSWORD: sgaedu
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sgaedu -d sgaedu"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sgaedu-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/sgaedu
+      DB_USER: sgaedu
+      DB_PASS: sgaedu
+      # TROQUE EM PRODUCAO: gere com `openssl rand -hex 32`
+      JWT_SECRET: dev_secret_troque_em_producao_use_openssl_rand_hex_32
+      JWT_EXP_MS: 28800000
+      STORAGE_DIR: /app/documentos
+      MAIL_HOST: smtp.gmail.com
+      MAIL_PORT: 587
+      MAIL_USER: ${MAIL_USER:-}
+      MAIL_PASS: ${MAIL_PASS:-}
+    ports:
+      - "8080:8080"
+    volumes:
+      - documentos_data:/app/documentos
+
+  frontend:
+    image: nginx:alpine
+    container_name: sgaedu-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  documentos_data:
